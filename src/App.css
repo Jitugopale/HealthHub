@@ -1,0 +1,79 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url('pexels-pixabay-531880.jpg'); /* Ensure the path is correct */
+  background-size: cover;
+  background-position: center;
+  color: #fff; /* Change text color for better readability */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Full height to center vertically */
+  background-color: rgba(0, 0, 0, 0.7); /* Dark overlay for better contrast */
+  border-radius: 10px; /* Rounded corners */
+  padding: 30px; /* Spacing inside the container */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  margin-bottom: 45px; /* Shadow for depth */
+}
+
+.heading-login {
+  font-size: 2.5rem; /* Larger font size for headings */
+  margin-bottom: 20px; /* Space below heading */
+}
+
+.heading-landing {
+  font-size: 2.5rem;
+  margin-bottom: 15px; /* Space below heading */
+}
+
+.btn {
+  padding: 10px 20px; /* Button padding */
+  font-size: 1.2rem; /* Larger font size for buttons */
+  border-radius: 5px; /* Rounded button corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+.btn-primary {
+  background-color: #007bff; /* Primary button color */
+  border: none; /* No border */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Secondary button color */
+  border: none; /* No border */
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268; /* Darker shade on hover */
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white for inputs */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded input corners */
+  padding: 10px; /* Input padding */
+  margin-bottom: 20px; /* Space below inputs */
+}
+
+.alert {
+  width: 100%; /* Full width for alert */
+  margin-bottom: 20px; /* Space below alert */
+}
+
+.reflect {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 38px; /* More rounded buttons */
+  margin-top: 1rem;
+}
