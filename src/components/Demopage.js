@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
 import '../App.css'; // Assuming you have styles defined in this file
+import UserProfile from './UserProfile';
 
 const Demopage = () => {
   return (
@@ -12,6 +14,7 @@ const Demopage = () => {
         <Link to="/login" className="btn btn-secondary mx-2">Go to Login</Link>
         <Link to="/register" className="btn btn-secondary mx-2">Go to Register</Link>
       </div>
+      <UserProfile/>
     </div>
   );
 };
