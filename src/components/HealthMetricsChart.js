@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables);
 
 const HealthMetricsChart = ({ metrics }) => {
   const [chartData, setChartData] = useState({});
@@ -21,7 +24,7 @@ const HealthMetricsChart = ({ metrics }) => {
             data: exerciseData,
             borderColor: 'rgba(75,192,192,1)',
             fill: false,
-            tension: 0.2, // Adding tension for smooth curves
+            tension: 0.2,
           },
           {
             label: 'Calories Consumed',
@@ -42,7 +45,7 @@ const HealthMetricsChart = ({ metrics }) => {
       setLoading(false);
     } else {
       setLoading(false);
-      setError('No metrics data available.'); // Change error message
+      setError('No metrics data available.');
     }
   }, [metrics]);
 

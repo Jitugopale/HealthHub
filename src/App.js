@@ -4,10 +4,12 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-import Demopage from "./components/Demopage";
+import UserInput from "./components/UserInput";
 import Navbar from "./components/Navbar";
 import HealthMetrics from "./components/HealthMetrics"; // Import the HealthMetrics wrapper component
 import LogMetrics from "./components/LogMetrics";
+import Home from "./components/Home";
+import './App.css'
 
 const App = () => {
   return (
@@ -17,13 +19,22 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route
-          path="/select"
+         path="/home"
           element={
             <ProtectedRoute>
-              <Navbar />
-              <Demopage />
-            </ProtectedRoute>
-          }
+            <Navbar />
+            <Home />
+          </ProtectedRoute>
+          } 
+        />
+        <Route
+         path="/user-input"
+          element={
+            <ProtectedRoute>
+            <Navbar />
+            <UserInput/>
+          </ProtectedRoute>
+          } 
         />
         <Route
           path="/health-metrics"

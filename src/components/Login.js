@@ -27,8 +27,8 @@ const Login = () => {
         localStorage.setItem('userId', response.data.userId);
         setEmail(''); // Clear email field
         setPassword(''); // Clear password field
-        console.log("Login successful, redirecting to DemoPage...");
-        navigate('/select');
+        console.log("Login successful, redirecting to Home...");
+        navigate('/home');
       } else {
         setError("Invalid login credentials.");
       }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Logout from './Logout';
+import UserProfile from './UserProfile';
 
 const Navbar = () => {
   const location = useLocation();
@@ -8,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/">HealthHub</Link>
+        <Link className="navbar-brand" to="/home">HealthHub</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -23,10 +24,10 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/">Home</Link>
+              <Link className="nav-link" to="/home">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/demo">Demo Page</Link>
+              <Link className="nav-link" to="/user-input">User Input</Link> {/* Updated to point to User Input */}
             </li>
             <li className="nav-item">
               <Link className="nav-link" to="/health-metrics">Health Metrics</Link>
@@ -36,34 +37,15 @@ const Navbar = () => {
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">
-            {/* Logout and User Profile */}
             {location.pathname !== '/demo' && (
               <>
-                <li className="nav-item">
+                <li className="nav-item" style={{marginRight:'80px'}}>
                   <Logout /> {/* Logout button placed here */}
                 </li>
-                <li className="nav-item dropdown">
-                  <button
-                    className="nav-link dropdown-toggle"
-                    id="userDropdown"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                    style={{
-                      background: 'none',
-                      border: 'none',
-                      padding: 0,
-                      color: 'inherit',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    Profile
-                  </button>
-                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li>
-                      <Link className="dropdown-item" to="/user-profile">User Profile</Link>
-                    </li>
-                  </ul>
+                <li className="nav-item">
+                    <UserProfile/>
                 </li>
+
               </>
             )}
           </ul>

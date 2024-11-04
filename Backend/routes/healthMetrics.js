@@ -1,10 +1,10 @@
 const express = require('express');
 const HealthMetric = require('../models/HealthMetric');
-const auth = require('../middleware/fetchUser');
+const fetchuser = require('../middleware/fetchUser');
 const router = express.Router();
 
 // Log health metrics (protected route)
-router.post('/log', auth, async (req, res) => {
+router.post('/log', fetchuser, async (req, res) => {
     const { exerciseMinutes, caloriesConsumed, sleepHours } = req.body;
 
     // Validate incoming data
@@ -35,7 +35,7 @@ router.post('/log', auth, async (req, res) => {
     }
 });
 
-router.get('/map', async (req, res) => {
+router.get('/map',fetchuser, async (req, res) => {
     try {
       // Assume metrics are fetched from a database
       const metrics = await HealthMetric.find(); // Replace with actual data fetching logic
@@ -46,23 +46,5 @@ router.get('/map', async (req, res) => {
     }
   });
   
-// Get metrics for the logged-in user (protected route)
-router.get('/', auth, async (req, res) => {
-    try {
-        // Retrieve metrics for the logged-in user
-        const metrics = await HealthMetric.find({ userId: req.user.id });
-
-        // Check if there are any metrics
-        if (metrics.length === 0) {
-            return res.status(404).json({ message: 'No metrics found' });
-        }
-
-        // Respond with the metrics, formatting them before sending
-        res.json(metrics.map(metric => metric.format())); // Format the metrics for a cleaner response
-    } catch (error) {
-        console.error('Error retrieving metrics:', error); // Log the error for debugging
-        res.status(500).json({ error: 'Failed to retrieve metrics', details: error.message }); // Include error details
-    }
-});
 
 module.exports = router;

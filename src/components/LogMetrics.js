@@ -6,6 +6,7 @@ const LogMetrics = () => {
     caloriesConsumed: '',
     sleepHours: ''
   });
+  const [metricsLog, setMetricsLog] = useState([]); // State to hold the logged metrics
 
   const handleLog = async (e) => {
     e.preventDefault();
@@ -19,7 +20,7 @@ const LogMetrics = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, // Include the token for authorization
+          'auth-token': token, // Include the token for authorization
         },
         body: JSON.stringify(form),
       });
@@ -28,8 +29,19 @@ const LogMetrics = () => {
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      const data = await response.json(); // If needed to handle response
+      const data = await response.json(); // Handle response if needed
       alert('Metrics logged successfully: ' + data.message); // Optionally show the success message
+
+      // Add the new metrics to the log
+      setMetricsLog((prevLog) => [
+        ...prevLog,
+        {
+          date: new Date().toLocaleString(),
+          exerciseMinutes: form.exerciseMinutes,
+          caloriesConsumed: form.caloriesConsumed,
+          sleepHours: form.sleepHours,
+        },
+      ]);
       setForm({ exerciseMinutes: '', caloriesConsumed: '', sleepHours: '' }); // Reset the form
     } catch (error) {
       console.error('Error logging metrics', error);
@@ -38,27 +50,40 @@ const LogMetrics = () => {
   };
 
   return (
-    <form onSubmit={handleLog}>
-      <input
-        type="number"
-        placeholder="Exercise Minutes"
-        value={form.exerciseMinutes}
-        onChange={(e) => setForm({ ...form, exerciseMinutes: e.target.value })}
-      />
-      <input
-        type="number"
-        placeholder="Calories Consumed"
-        value={form.caloriesConsumed}
-        onChange={(e) => setForm({ ...form, caloriesConsumed: e.target.value })}
-      />
-      <input
-        type="number"
-        placeholder="Sleep Hours"
-        value={form.sleepHours}
-        onChange={(e) => setForm({ ...form, sleepHours: e.target.value })}
-      />
-      <button type="submit">Log Metrics</button>
-    </form>
+    <div>
+      <form onSubmit={handleLog}>
+        <input
+          type="number"
+          placeholder="Exercise Minutes"
+          value={form.exerciseMinutes}
+          onChange={(e) => setForm({ ...form, exerciseMinutes: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Calories Consumed"
+          value={form.caloriesConsumed}
+          onChange={(e) => setForm({ ...form, caloriesConsumed: e.target.value })}
+        />
+        <input
+          type="number"
+          placeholder="Sleep Hours"
+          value={form.sleepHours}
+          onChange={(e) => setForm({ ...form, sleepHours: e.target.value })}
+        />
+        <button type="submit">Log Metrics</button>
+      </form>
+
+      {/* Display the logged metrics */}
+      <h3>Logged Metrics:</h3>
+      <ul>
+        {metricsLog.map((metric, index) => (
+          <li key={index}>
+            Date: {metric.date} - Exercise: {metric.exerciseMinutes} mins, 
+            Calories: {metric.caloriesConsumed}, Sleep: {metric.sleepHours} hours
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

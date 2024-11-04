@@ -130,7 +130,7 @@ const styles = {
     alignItems: 'center',
     cursor: 'pointer',
     position: 'absolute', // Adjust this to place it in the upper right corner
-    top: '20px',
+    top: '10px',
     right: '20px',
     backgroundColor: '#f0f0f0',
     boxShadow: '0 2px 5px rgba(0, 0, 0, 0.3)',
