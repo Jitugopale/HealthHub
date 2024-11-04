@@ -3,9 +3,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
-import Logout from "./components/Logout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Demopage from "./components/Demopage";
+import Navbar from "./components/Navbar";
+import HealthMetrics from "./components/HealthMetrics"; // Import the HealthMetrics wrapper component
+import LogMetrics from "./components/LogMetrics";
 
 const App = () => {
   return (
@@ -18,8 +20,26 @@ const App = () => {
           path="/select"
           element={
             <ProtectedRoute>
-              <Logout />
+              <Navbar />
               <Demopage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/health-metrics"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <HealthMetrics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/log-metrics"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <LogMetrics />
             </ProtectedRoute>
           }
         />
