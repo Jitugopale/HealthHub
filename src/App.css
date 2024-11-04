@@ -77,3 +77,14 @@ body {
   border-radius: 38px; /* More rounded buttons */
   margin-top: 1rem;
 }
+
+.nav-text {
+  color: white; /* Default color for nav links */
+  font-weight: normal; /* Normal weight for nav links */
+  text-decoration: none; /* No underline for links */
+  transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.nav-text:hover {
+  color: green; /* Change color on hover */
+}
