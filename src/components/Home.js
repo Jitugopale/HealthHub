@@ -1,4 +1,7 @@
 import React from 'react';
+import healthTracking from '../assets/Health_Metrics_Tracking.jpg';
+import UserInput from '../assets/UserInput.jpg';
+
 
 const HomePage = () => {
   // Inline styles for the component
@@ -41,7 +44,7 @@ const HomePage = () => {
       <div className="row">
         <div className="col-md-6 mb-4">
           <div className="card" style={styles.card}>
-            <img src="path/to/your/image1.jpg" className="card-img-top" alt="Health metrics tracking" />
+            <img src={healthTracking} className="card-img-top" alt="Health metrics tracking" />
             <div className="card-body">
               <h5 className="card-title">Track Your Health Metrics</h5>
               <p className="card-text">
@@ -53,7 +56,7 @@ const HomePage = () => {
 
         <div className="col-md-6 mb-4">
           <div className="card" style={styles.card}>
-            <img src="path/to/your/image2.jpg" className="card-img-top" alt="User input section" />
+            <img src={UserInput} className="card-img-top" alt="User input section" />
             <div className="card-body">
               <h5 className="card-title">User Input Section</h5>
               <p className="card-text">

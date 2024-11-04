@@ -30,17 +30,17 @@ const Navbar = () => {
               <Link className="nav-link" to="/user-input">User Input</Link> {/* Updated to point to User Input */}
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/health-metrics">Health Metrics</Link>
+              <Link className="nav-link" to="/log-metrics">Log Metrics</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/log-metrics">Log Metrics</Link>
+              <Link className="nav-link" to="/health-metrics">Health Metrics</Link>
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">
             {location.pathname !== '/demo' && (
               <>
                 <li className="nav-item" style={{marginRight:'80px'}}>
-                  <Logout /> {/* Logout button placed here */}
+                  <Logout />
                 </li>
                 <li className="nav-item">
                     <UserProfile/>
