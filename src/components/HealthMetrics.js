@@ -7,7 +7,6 @@ const HealthMetrics = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Define the handleDelete function to remove a metric by its _id
   const handleDelete = async (id) => {
     const token = localStorage.getItem('token');
     try {
@@ -22,7 +21,6 @@ const HealthMetrics = () => {
         throw new Error('Failed to delete metric');
       }
 
-      // Remove the deleted metric from the metrics array
       setMetrics(metrics.filter((metric) => metric._id !== id));
     } catch (error) {
       console.error('Error deleting metric:', error);
@@ -65,6 +63,19 @@ const HealthMetrics = () => {
 
   if (error) {
     return <p style={styles.error}>{error}</p>;
+  }
+
+  // Check if there are no metrics
+  if (metrics.length === 0) {
+    return (
+      <div style={styles.emptyContainer}>
+        <h2 style={styles.emptyTitle}>No Metrics Available</h2>
+        <p style={styles.emptyMessage}>It looks like you haven't added any health metrics yet.</p>
+        <button style={styles.addButton} onClick={() => console.log('Add Metric')}>
+          Add Metric
+        </button>
+      </div>
+    );
   }
 
   return (
@@ -113,6 +124,34 @@ const styles = {
     textAlign: "center",
     fontSize: "1.25rem",
     marginTop: "2rem",
+  },
+  emptyContainer: {
+    padding: "2rem",
+    textAlign: "center",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+    margin: "0 auto",
+    maxWidth: "600px",
+  },
+  emptyTitle: {
+    fontSize: "1.5rem",
+    color: "#333",
+    marginBottom: "1rem",
+  },
+  emptyMessage: {
+    fontSize: "1rem",
+    color: "#555",
+    marginBottom: "1.5rem",
+  },
+  addButton: {
+    padding: "0.5rem 1rem",
+    backgroundColor: "#007bff",
+    color: "#fff",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    fontSize: "1rem",
   },
 };
 
