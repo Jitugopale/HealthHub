@@ -118,7 +118,7 @@ const LogMetrics = () => {
             <strong>Calories:</strong> {metric.caloriesConsumed}, 
             <strong>Sleep:</strong> {metric.sleepHours} hours, 
             <strong>Weight:</strong> {metric.weight} kg, 
-            <strong>Height:</strong> {metric.height} m,  // Display height
+            <strong>Height:</strong> {metric.height} m, 
             <strong>Blood Pressure:</strong> {metric.bloodPressure}
           </li>
         ))}
