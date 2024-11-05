@@ -12,16 +12,18 @@ const TrackProgress = ({ userId, metrics }) => {
     const totalMetrics = metrics.length;
     const averages = metrics.reduce((acc, metric) => {
       acc.weight += metric.weight;
+      acc.height += metric.height; // Accumulate height
       acc.exerciseMinutes += metric.exerciseMinutes;
       acc.caloriesConsumed += metric.caloriesConsumed;
       acc.sleepHours += metric.sleepHours;
       acc.bloodPressure += metric.bloodPressure;
       return acc;
-    }, { weight: 0, exerciseMinutes: 0, caloriesConsumed: 0, sleepHours: 0, bloodPressure: 0 });
+    }, { weight: 0, height: 0, exerciseMinutes: 0, caloriesConsumed: 0, sleepHours: 0, bloodPressure: 0 });
 
     // Calculate averages
     return {
       weight: (averages.weight / totalMetrics).toFixed(2),
+      height: (averages.height / totalMetrics).toFixed(2), // Calculate average height
       exerciseMinutes: (averages.exerciseMinutes / totalMetrics).toFixed(2),
       caloriesConsumed: (averages.caloriesConsumed / totalMetrics).toFixed(2),
       sleepHours: (averages.sleepHours / totalMetrics).toFixed(2),
@@ -33,10 +35,9 @@ const TrackProgress = ({ userId, metrics }) => {
     const averageMetrics = calculateAverages();
     if (!averageMetrics) return;
 
-    const { weight, exerciseMinutes, caloriesConsumed, sleepHours, bloodPressure } = averageMetrics;
+    const { weight, height, exerciseMinutes, caloriesConsumed, sleepHours, bloodPressure } = averageMetrics;
 
-    // Ensure weight is in kilograms for BMI calculation
-    const height = 1.75; // Example height in meters
+    // Ensure height is in meters for BMI calculation
     const bmi = weight / (height * height);
     const bmr = 10 * weight + 6.25 * (height * 100) - 5 * 30 + 5; // For men (age = 30)
     const calorieNeeds = bmr * 1.2;
@@ -89,6 +90,7 @@ const TrackProgress = ({ userId, metrics }) => {
   );
 };
 
+// Styles remain unchanged
 const styles = {
   container: {
     maxWidth: '700px',

@@ -23,6 +23,10 @@ const healthMetricSchema = new mongoose.Schema({
         type: Number, // Weight in kg
         required: false 
     },
+    height: { 
+        type: Number, // Height in cm
+        required: false 
+    },
     bloodPressure: { 
         type: String, // Blood pressure in the format "systolic/diastolic", e.g., "120/80"
         required: false 
@@ -42,6 +46,7 @@ healthMetricSchema.methods.format = function() {
         caloriesConsumed: this.caloriesConsumed,
         sleepHours: this.sleepHours,
         weight: this.weight, // Include weight in the formatted output
+        height: this.height, // Include height in the formatted output
         bloodPressure: this.bloodPressure, // Include blood pressure in the formatted output
         date: this.date.toISOString().split('T')[0] // Format date as YYYY-MM-DD
     };

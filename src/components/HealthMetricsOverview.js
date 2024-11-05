@@ -14,12 +14,8 @@ const HealthMetricsOverview = ({ metrics, handleDelete }) => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        handleDelete(id); // Call the delete function if confirmed
-        Swal.fire(
-          'Deleted!',
-          'Your health metric has been deleted.',
-          'success'
-        );
+        handleDelete(id);
+        Swal.fire('Deleted!', 'Your health metric has been deleted.', 'success');
       }
     });
   };
@@ -57,6 +53,10 @@ const HealthMetricsOverview = ({ metrics, handleDelete }) => {
                 <span style={styles.label}>Blood Pressure:</span>
                 <span style={styles.value}>{metric.bloodPressure}</span>
               </div>
+              <div style={styles.metricContainer}>
+                <span style={styles.label}>Height:</span> {/* Display height */}
+                <span style={styles.value}>{metric.height} cm</span>
+              </div>
               <button style={styles.deleteButton} onClick={() => confirmDelete(metric._id)}>Delete</button>
             </li>
           ))
@@ -66,15 +66,16 @@ const HealthMetricsOverview = ({ metrics, handleDelete }) => {
   );
 };
 
+// Styles remain the same
 const styles = {
   container: {
     padding: "1.5rem",
-    backgroundColor: "#e6f7ff", // Light, attractive pastel blue
+    backgroundColor: "#e6f7ff",
     borderRadius: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     maxWidth: "1000px",
     margin: "0 auto",
-    color: "#000", // Black text for readability
+    color: "#000",
   },
   header: {
     fontSize: "1.75rem",
@@ -96,52 +97,34 @@ const styles = {
     color: "#000",
     fontSize: "1rem",
     display: "flex",
-    flexDirection: "column", // Stack items vertically
+    flexDirection: "column",
   },
   metricContainer: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: '0.5rem',
-    padding: '0 1rem', // Padding to keep text away from edges
-    width: '100%', // Make sure it spans full width
+    padding: '0 1rem',
+    width: '100%',
   },
   label: {
     fontWeight: "bold",
     color: "#555",
-    flex: '1', // Allow label to take necessary space
+    flex: '1',
   },
   value: {
-    flex: '1', // Allow value to take necessary space
-    textAlign: 'center', // Align values to the right
+    flex: '1',
+    textAlign: 'center',
   },
   deleteButton: {
     padding: "0.3rem 0.6rem",
     border: "none",
     borderRadius: "4px",
-    backgroundColor: "#ff4d4d", // Red for delete action
+    backgroundColor: "#ff4d4d",
     color: "#fff",
     cursor: "pointer",
-    marginTop: '1rem', // Space above the button
+    marginTop: '1rem',
   },
 };
-
-// Media queries for responsiveness
-const mediaQueries = `
-  @media (max-width: 991px) {
-    .metricContainer {
-      flex-direction: column; // Stack items vertically on small screens
-      align-items: flex-start; // Align items to the start
-    }
-    .deleteButton {
-      margin-top: 0; // Reset margin for better spacing
-    }
-  }
-`;
-
-const styleSheet = document.createElement("style");
-styleSheet.type = "text/css";
-styleSheet.innerText = mediaQueries;
-document.head.appendChild(styleSheet);
 
 export default HealthMetricsOverview;

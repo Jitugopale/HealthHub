@@ -25,19 +25,21 @@ const MetricsContainer = ({ userId }) => {
     const total = metricsArray.reduce(
       (acc, curr) => {
         acc.weight += curr.weight;
+        acc.height += curr.height; // Accumulate height
         acc.exerciseMinutes += curr.exerciseMinutes;
         acc.caloriesConsumed += curr.caloriesConsumed;
         acc.sleepHours += curr.sleepHours;
         acc.bloodPressure += curr.bloodPressure;
         return acc;
       },
-      { weight: 0, exerciseMinutes: 0, caloriesConsumed: 0, sleepHours: 0, bloodPressure: 0 }
+      { weight: 0, height: 0, exerciseMinutes: 0, caloriesConsumed: 0, sleepHours: 0, bloodPressure: 0 }
     );
 
     const count = metricsArray.length;
 
     return {
       weight: total.weight / count,
+      height: total.height / count, // Average height
       exerciseMinutes: total.exerciseMinutes / count,
       caloriesConsumed: total.caloriesConsumed / count,
       sleepHours: total.sleepHours / count,

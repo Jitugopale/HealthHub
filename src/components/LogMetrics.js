@@ -6,9 +6,10 @@ const LogMetrics = () => {
     caloriesConsumed: '',
     sleepHours: '',
     weight: '',
-    bloodPressure: ''
+    bloodPressure: '',
+    height: '' // Add height to the state
   });
-  const [metricsLog, setMetricsLog] = useState([]); // State to hold the logged metrics
+  const [metricsLog, setMetricsLog] = useState([]);
 
   const handleLog = async (e) => {
     e.preventDefault();
@@ -42,6 +43,7 @@ const LogMetrics = () => {
           sleepHours: form.sleepHours,
           weight: form.weight,
           bloodPressure: form.bloodPressure,
+          height: form.height // Include height in the log
         },
       ]);
       setForm({ 
@@ -49,7 +51,8 @@ const LogMetrics = () => {
         caloriesConsumed: '', 
         sleepHours: '',
         weight: '',
-        bloodPressure: ''
+        bloodPressure: '',
+        height: '' // Reset height
       });
     } catch (error) {
       console.error('Error logging metrics', error);
@@ -90,6 +93,13 @@ const LogMetrics = () => {
           style={styles.input}
         />
         <input
+          type="number"
+          placeholder="Height (m)" // Updated placeholder for height
+          value={form.height}
+          onChange={(e) => setForm({ ...form, height: e.target.value })}
+          style={styles.input}
+        />
+        <input
           type="text"
           placeholder="Blood Pressure (systolic/diastolic)"
           value={form.bloodPressure}
@@ -108,6 +118,7 @@ const LogMetrics = () => {
             <strong>Calories:</strong> {metric.caloriesConsumed}, 
             <strong>Sleep:</strong> {metric.sleepHours} hours, 
             <strong>Weight:</strong> {metric.weight} kg, 
+            <strong>Height:</strong> {metric.height} m,  // Display height
             <strong>Blood Pressure:</strong> {metric.bloodPressure}
           </li>
         ))}
@@ -115,6 +126,8 @@ const LogMetrics = () => {
     </div>
   );
 };
+
+// Styles remain unchanged...
 
 const styles = {
   container: {

@@ -15,8 +15,9 @@ const HealthMetricsChart = ({ metrics }) => {
       const exerciseData = metrics.map((metric) => metric.exerciseMinutes);
       const caloriesData = metrics.map((metric) => metric.caloriesConsumed);
       const sleepData = metrics.map((metric) => metric.sleepHours);
-      const weightData = metrics.map((metric) => metric.weight); // Add weight data
-      const bloodPressureData = metrics.map((metric) => metric.bloodPressure); // Add blood pressure data
+      const weightData = metrics.map((metric) => metric.weight);
+      const bloodPressureData = metrics.map((metric) => metric.bloodPressure);
+      const heightData = metrics.map((metric) => metric.height); // Add height data
 
       setChartData({
         labels: dates,
@@ -53,6 +54,13 @@ const HealthMetricsChart = ({ metrics }) => {
             label: 'Blood Pressure',
             data: bloodPressureData,
             borderColor: 'rgba(153,102,255,1)',
+            fill: false,
+            tension: 0.2,
+          },
+          {
+            label: 'Height (cm)', // New height dataset
+            data: heightData,
+            borderColor: 'rgba(255,159,64,1)',
             fill: false,
             tension: 0.2,
           },

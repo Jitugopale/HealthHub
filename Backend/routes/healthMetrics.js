@@ -5,10 +5,10 @@ const router = express.Router();
 
 // Log health metrics (protected route)
 router.post('/log', fetchuser, async (req, res) => {
-    const { exerciseMinutes, caloriesConsumed, sleepHours, weight, bloodPressure } = req.body;
+    const { exerciseMinutes, caloriesConsumed, sleepHours, weight, bloodPressure, height } = req.body;
 
     // Validate incoming data
-    if (exerciseMinutes == null || caloriesConsumed == null || sleepHours == null || weight == null || bloodPressure == null) {
+    if (exerciseMinutes == null || caloriesConsumed == null || sleepHours == null || weight == null || bloodPressure == null || height == null) {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -19,8 +19,9 @@ router.post('/log', fetchuser, async (req, res) => {
             exerciseMinutes,
             caloriesConsumed,
             sleepHours,
-            weight,  // Added weight
-            bloodPressure,  // Added blood pressure
+            weight,
+            bloodPressure,
+            height,  // Added height
         });
 
         // Save the new metric to the database
@@ -73,19 +74,20 @@ router.delete('/:id', fetchuser, async (req, res) => {
     }
 });
 
-router.get('/getMetricsByUserId/:userId',fetchuser, async (req, res) => {
+// Fetch metrics by user ID
+router.get('/getMetricsByUserId/:userId', fetchuser, async (req, res) => {
     const { userId } = req.params;
   
     try {
-      const metrics = await HealthMetric.find({ userId }); // Fetch metrics based on userId
-      if (!metrics.length) {
-        return res.status(404).json({ message: 'No metrics found for this user ID' });
-      }
-      res.json(metrics);
+        const metrics = await HealthMetric.find({ userId }); // Fetch metrics based on userId
+        if (!metrics.length) {
+            return res.status(404).json({ message: 'No metrics found for this user ID' });
+        }
+        res.json(metrics);
     } catch (error) {
-      console.error('Error fetching metrics by user ID:', error);
-      res.status(500).json({ message: 'Server error while fetching metrics by user ID' });
+        console.error('Error fetching metrics by user ID:', error);
+        res.status(500).json({ message: 'Server error while fetching metrics by user ID' });
     }
-  });
+});
   
 module.exports = router;
