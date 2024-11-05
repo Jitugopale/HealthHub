@@ -73,4 +73,19 @@ router.delete('/:id', fetchuser, async (req, res) => {
     }
 });
 
+router.get('/getMetricsByUserId/:userId',fetchuser, async (req, res) => {
+    const { userId } = req.params;
+  
+    try {
+      const metrics = await HealthMetric.find({ userId }); // Fetch metrics based on userId
+      if (!metrics.length) {
+        return res.status(404).json({ message: 'No metrics found for this user ID' });
+      }
+      res.json(metrics);
+    } catch (error) {
+      console.error('Error fetching metrics by user ID:', error);
+      res.status(500).json({ message: 'Server error while fetching metrics by user ID' });
+    }
+  });
+  
 module.exports = router;

@@ -10,7 +10,7 @@ import HealthMetrics from "./components/HealthMetrics"; // Import the HealthMetr
 import LogMetrics from "./components/LogMetrics";
 import Home from "./components/Home";
 import './App.css';
-import TrackProgress from "./components/TrackProgress"; // Importing TrackProgress
+import MetricsContainer from "./components/MetricsContainer";
 
 const App = () => {
   return (
@@ -60,7 +60,7 @@ const App = () => {
           element={
             <ProtectedRoute>
               <Navbar />
-              <TrackProgress /> {/* Correctly set up TrackProgress route */}
+              <MetricsContainer /> {/* Correctly set up TrackProgress route */}
             </ProtectedRoute>
           }
         />
