@@ -9,7 +9,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg" style={styles.navbar}>
       <div className="container-fluid">
-        <Link className="navbar-brand" to="/home" >HealthHub</Link>
+        <Link className="navbar-brand" to="/home">HealthHub</Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -24,28 +24,30 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/home" >Home</Link>
+              <Link className="nav-link" to="/home">Home</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/user-input" >User Input</Link> {/* Updated to point to User Input */}
+              <Link className="nav-link" to="/user-input">User Input</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/log-metrics" >Log Metrics</Link>
+              <Link className="nav-link" to="/log-metrics">Log Metrics</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/health-metrics" >Health Metrics</Link>
+              <Link className="nav-link" to="/health-metrics">Health Metrics</Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/track-progress">Track Progress</Link> {/* Match styling with others */}
             </li>
           </ul>
           <ul className="navbar-nav ms-auto">
             {location.pathname !== '/demo' && (
               <>
-                <li className="nav-item" style={{marginRight:'80px'}}>
+                <li className="nav-item" style={{ marginRight: '80px' }}>
                   <Logout />
                 </li>
                 <li className="nav-item">
-                    <UserProfile/>
+                  <UserProfile />
                 </li>
-
               </>
             )}
           </ul>

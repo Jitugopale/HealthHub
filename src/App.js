@@ -9,7 +9,8 @@ import Navbar from "./components/Navbar";
 import HealthMetrics from "./components/HealthMetrics"; // Import the HealthMetrics wrapper component
 import LogMetrics from "./components/LogMetrics";
 import Home from "./components/Home";
-import './App.css'
+import './App.css';
+import TrackProgress from "./components/TrackProgress"; // Importing TrackProgress
 
 const App = () => {
   return (
@@ -19,22 +20,22 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route
-         path="/home"
+          path="/home"
           element={
             <ProtectedRoute>
-            <Navbar />
-            <Home />
-          </ProtectedRoute>
-          } 
+              <Navbar />
+              <Home />
+            </ProtectedRoute>
+          }
         />
         <Route
-         path="/user-input"
+          path="/user-input"
           element={
             <ProtectedRoute>
-            <Navbar />
-            <UserInput/>
-          </ProtectedRoute>
-          } 
+              <Navbar />
+              <UserInput />
+            </ProtectedRoute>
+          }
         />
         <Route
           path="/health-metrics"
@@ -51,6 +52,15 @@ const App = () => {
             <ProtectedRoute>
               <Navbar />
               <LogMetrics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/track-progress"
+          element={
+            <ProtectedRoute>
+              <Navbar />
+              <TrackProgress /> {/* Correctly set up TrackProgress route */}
             </ProtectedRoute>
           }
         />
