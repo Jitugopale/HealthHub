@@ -11,19 +11,18 @@ const TrackProgress = ({ userId, metrics }) => {
 
     const totalMetrics = metrics.length;
     const averages = metrics.reduce((acc, metric) => {
-      acc.weight += metric.weight;
-      acc.height += metric.height; // Accumulate height
-      acc.exerciseMinutes += metric.exerciseMinutes;
-      acc.caloriesConsumed += metric.caloriesConsumed;
-      acc.sleepHours += metric.sleepHours;
-      acc.bloodPressure += metric.bloodPressure;
+      acc.weight += metric.weight || 0;
+      acc.height += metric.height || 0;
+      acc.exerciseMinutes += metric.exerciseMinutes || 0;
+      acc.caloriesConsumed += metric.caloriesConsumed || 0;
+      acc.sleepHours += metric.sleepHours || 0;
+      acc.bloodPressure += (metric.bloodPressure || 0);
       return acc;
     }, { weight: 0, height: 0, exerciseMinutes: 0, caloriesConsumed: 0, sleepHours: 0, bloodPressure: 0 });
 
-    // Calculate averages
     return {
       weight: (averages.weight / totalMetrics).toFixed(2),
-      height: (averages.height / totalMetrics).toFixed(2), // Calculate average height
+      height: (averages.height / totalMetrics).toFixed(2),
       exerciseMinutes: (averages.exerciseMinutes / totalMetrics).toFixed(2),
       caloriesConsumed: (averages.caloriesConsumed / totalMetrics).toFixed(2),
       sleepHours: (averages.sleepHours / totalMetrics).toFixed(2),
@@ -37,42 +36,58 @@ const TrackProgress = ({ userId, metrics }) => {
 
     const { weight, height, exerciseMinutes, caloriesConsumed, sleepHours, bloodPressure } = averageMetrics;
 
-    // Ensure height is in meters for BMI calculation
-    const bmi = weight / (height * height);
-    const bmr = 10 * weight + 6.25 * (height * 100) - 5 * 30 + 5; // For men (age = 30)
-    const calorieNeeds = bmr * 1.2;
+    const heightInMeters = height / 100; // Convert height from cm to meters
+    const bmi = weight / (heightInMeters * heightInMeters);
+    const bmr = 10 * weight + 6.25 * height - 5 * 30 + 5; // Using an average age of 30
+    const calorieNeeds = bmr * 1.2; // Sedentary activity level
 
     let improvementSuggestions = 'Based on your metrics:\n\n';
+    let hasDiscrepancy = false;
 
-    // BMI suggestions
+    // Check BMI
     if (bmi < 18.5) {
-      improvementSuggestions += '🔹 You are underweight. Consider a balanced diet with more calories.\n';
-    } else if (bmi < 24.9) {
-      improvementSuggestions += '🔹 You have a normal weight. Keep up the balanced diet and regular exercise.\n';
-    } else if (bmi < 29.9) {
-      improvementSuggestions += '🔹 You are overweight. A calorie deficit could help with weight loss.\n';
+      improvementSuggestions += '🔹 You are underweight. Consider increasing your caloric intake.\n';
+      hasDiscrepancy = true;
+    } else if (bmi >= 25 && bmi < 30) {
+      improvementSuggestions += '🔹 You are overweight. Consider a balanced diet and regular exercise.\n';
+      hasDiscrepancy = true;
+    } else if (bmi >= 30) {
+      improvementSuggestions += '🔹 You are obese. It is important to consult a healthcare provider for guidance.\n';
+      hasDiscrepancy = true;
     } else {
-      improvementSuggestions += '🔹 You are obese. It’s advisable to consult a healthcare provider for a personalized plan.\n';
+      improvementSuggestions += '🔹 You have a normal weight. Keep up the good work!\n';
     }
 
-    // Exercise suggestions
+    // Check exercise minutes
     if (exerciseMinutes < 150) {
-      improvementSuggestions += '🔹 Aim for at least 150 minutes of moderate exercise weekly.\n';
+      improvementSuggestions += '🔹 You should aim for at least 150 minutes of moderate exercise weekly.\n';
+      hasDiscrepancy = true;
     }
 
-    // Caloric intake suggestions
-    if (caloriesConsumed > calorieNeeds) {
-      improvementSuggestions += '🔹 Consider reducing portions or increasing activity levels to manage your calorie intake.\n';
+    // Check caloric intake
+    if (caloriesConsumed < 1200) {
+      improvementSuggestions += '🔹 Your caloric intake is too low. Ensure you are eating enough to meet your energy needs.\n';
+      hasDiscrepancy = true;
+    } else if (caloriesConsumed > calorieNeeds) {
+      improvementSuggestions += '🔹 You are consuming more calories than your needs. Consider reducing portions or increasing activity levels.\n';
+      hasDiscrepancy = true;
     }
 
-    // Sleep suggestions
+    // Check sleep
     if (sleepHours < 7) {
       improvementSuggestions += '🔹 Aim for 7-9 hours of sleep per night for optimal health.\n';
+      hasDiscrepancy = true;
     }
 
-    // Blood pressure suggestions
-    if (bloodPressure > 120) {
-      improvementSuggestions += '🔹 Monitor your sodium intake and consult a healthcare provider if necessary.\n';
+    // Check blood pressure
+    if (bloodPressure < 90 || bloodPressure > 120) {
+      improvementSuggestions += '🔹 Your blood pressure readings are outside the normal range. Consult with a healthcare provider for advice.\n';
+      hasDiscrepancy = true;
+    }
+
+    // Check if there are any discrepancies
+    if (!hasDiscrepancy) {
+      improvementSuggestions += '🔹 All metrics are within normal ranges. Keep up the good work!\n';
     }
 
     setSuggestions(improvementSuggestions);
@@ -135,15 +150,12 @@ const styles = {
     fontSize: '1.5rem',
     color: '#333',
     marginBottom: '10px',
-    fontWeight: 'bold',
-    textShadow: '1px 1px 4px rgba(0, 0, 0, 0.1)',
+    fontWeight: '600',
   },
   suggestionsText: {
     fontSize: '1rem',
     color: '#555',
     whiteSpace: 'pre-line',
-    lineHeight: '1.6',
-    textShadow: '1px 1px 3px rgba(0, 0, 0, 0.05)',
   },
 };
 
