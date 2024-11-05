@@ -15,6 +15,8 @@ const HealthMetricsChart = ({ metrics }) => {
       const exerciseData = metrics.map((metric) => metric.exerciseMinutes);
       const caloriesData = metrics.map((metric) => metric.caloriesConsumed);
       const sleepData = metrics.map((metric) => metric.sleepHours);
+      const weightData = metrics.map((metric) => metric.weight); // Add weight data
+      const bloodPressureData = metrics.map((metric) => metric.bloodPressure); // Add blood pressure data
 
       setChartData({
         labels: dates,
@@ -37,6 +39,20 @@ const HealthMetricsChart = ({ metrics }) => {
             label: 'Sleep Hours',
             data: sleepData,
             borderColor: 'rgba(54,162,235,1)',
+            fill: false,
+            tension: 0.2,
+          },
+          {
+            label: 'Weight (kg)',
+            data: weightData,
+            borderColor: 'rgba(255,205,86,1)',
+            fill: false,
+            tension: 0.2,
+          },
+          {
+            label: 'Blood Pressure',
+            data: bloodPressureData,
+            borderColor: 'rgba(153,102,255,1)',
             fill: false,
             tension: 0.2,
           },
@@ -63,6 +79,7 @@ const HealthMetricsChart = ({ metrics }) => {
           display: true,
           text: 'Values',
         },
+        beginAtZero: true,
       },
     },
   };

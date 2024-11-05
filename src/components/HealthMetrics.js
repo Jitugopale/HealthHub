@@ -7,11 +7,33 @@ const HealthMetrics = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Define the handleDelete function to remove a metric by its _id
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`http://localhost:5000/api/health-metrics/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'auth-token': token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete metric');
+      }
+
+      // Remove the deleted metric from the metrics array
+      setMetrics(metrics.filter((metric) => metric._id !== id));
+    } catch (error) {
+      console.error('Error deleting metric:', error);
+      setError('Failed to delete metric. Please try again.');
+    }
+  };
+
   useEffect(() => {
     const fetchMetrics = async () => {
       setLoading(true);
       const token = localStorage.getItem('token');
-      console.log("Token fetched:", token);
       try {
         const response = await fetch('http://localhost:5000/api/health-metrics/map', {
           headers: {
@@ -25,7 +47,6 @@ const HealthMetrics = () => {
         }
 
         const data = await response.json();
-        console.log('Fetched Data:', data);
         setMetrics(data);
       } catch (error) {
         console.error('Failed to fetch metrics:', error);
@@ -52,47 +73,47 @@ const HealthMetrics = () => {
       <div style={styles.chartContainer}>
         <HealthMetricsChart metrics={metrics} />
       </div>
-      <HealthMetricsOverview metrics={metrics} />
+      <HealthMetricsOverview metrics={metrics} handleDelete={handleDelete} />
     </div>
   );
 };
 
 const styles = {
-    container: {
-      padding: "2rem",
-      maxWidth: "1200px",
-      margin: "0 auto",
-      backgroundColor: "#f9f9f9",
-      borderRadius: "8px",
-      border: "1px solid rgba(0, 0, 0, 0.1)", // Add a light border
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Keep the shadow
-    },
-    title: {
-      fontSize: "2rem",
-      color: "#333",
-      marginBottom: "1.5rem",
-      textAlign: "center",
-      fontWeight: "600",
-    },
-    chartContainer: {
-      marginBottom: "2rem",
-      padding: "1rem",
-      backgroundColor: "#fff",
-      borderRadius: "8px",
-      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    },
-    loading: {
-      fontSize: "1.25rem",
-      color: "#777",
-      textAlign: "center",
-      marginTop: "2rem",
-    },
-    error: {
-      color: "#d9534f",
-      textAlign: "center",
-      fontSize: "1.25rem",
-      marginTop: "2rem",
-    },
-  };
-  
+  container: {
+    padding: "2rem",
+    maxWidth: "1200px",
+    margin: "0 auto",
+    backgroundColor: "#f9f9f9",
+    borderRadius: "8px",
+    border: "1px solid rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  },
+  title: {
+    fontSize: "2rem",
+    color: "#333",
+    marginBottom: "1.5rem",
+    textAlign: "center",
+    fontWeight: "600",
+  },
+  chartContainer: {
+    marginBottom: "2rem",
+    padding: "1rem",
+    backgroundColor: "#fff",
+    borderRadius: "8px",
+    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+  },
+  loading: {
+    fontSize: "1.25rem",
+    color: "#777",
+    textAlign: "center",
+    marginTop: "2rem",
+  },
+  error: {
+    color: "#d9534f",
+    textAlign: "center",
+    fontSize: "1.25rem",
+    marginTop: "2rem",
+  },
+};
+
 export default HealthMetrics;
