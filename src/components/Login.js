@@ -85,16 +85,18 @@ const Login = () => {
 
         {error && <p className="text-danger">{error}</p>}
 
-        <button type="submit" className="btn btn-primary" disabled={loading}>
+        <button type="submit" className="btn btn-primary reflect bn bn-primary" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
 
         <div className="mt-3">
-          <Link to="/register">Don't have an account? Register</Link>
-        </div>
+        <p>
+        Don't have an account?<Link to="/register"> Register</Link>
+        </p>
+      </div>
 
-        <div className="mt-3">
-          <button type="button" onClick={handlePasswordReset} className="text-primary">
+        <div className="mt-3 " style={styles.left}>
+          <button type="button" onClick={handlePasswordReset} className="text-primary" style={styles.radius}>
             Forgot password?
           </button>
         </div>
@@ -103,4 +105,12 @@ const Login = () => {
   );
 };
 
+const styles = {
+  left: {
+    marginLeft:'40px',
+  },
+  radius:{
+    borderRadius:'8px'
+  }
+}  
 export default Login;
