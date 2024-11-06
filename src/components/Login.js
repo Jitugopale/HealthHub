@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Import useNavigate
 import axios from 'axios';
-
+import { useRecoveryContext } from '../RecoveryContext';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [clickedFields, setClickedFields] = useState({
-    email: false,
-    password: false,
-  });
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize navigate function
+  const { setRecoveryEmail } = useRecoveryContext(); // Destructure setRecoveryEmail
 
+  // Handle login
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -25,74 +23,82 @@ const Login = () => {
       if (response.data.authToken) {
         localStorage.setItem('token', response.data.authToken);
         localStorage.setItem('userId', response.data.userId);
-        setEmail(''); // Clear email field
-        setPassword(''); // Clear password field
-        console.log("Login successful, redirecting to Home...");
+        setEmail('');
+        setPassword('');
+        console.log('Login successful, redirecting to Home...');
         navigate('/home');
       } else {
-        setError("Invalid login credentials.");
+        setError('Invalid login credentials.');
       }
     } catch (error) {
       console.error('Login failed', error);
-      setError(
-        error.response?.data?.message || 
-        'Invalid email or password. Please try again.'
-      );
+      setError(error.response?.data?.message || 'Invalid email or password. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  const handleInputClick = (field) => {
-    setClickedFields((prev) => ({
-      ...prev,
-      [field]: true, // Set the clicked field to true
-    }));
+  // Function to handle password reset
+  const handlePasswordReset = () => {
+    if (email) {
+      setRecoveryEmail(email); // Set the recovery email in the context
+
+      axios
+        .post('http://localhost:5000/api/auth/send_recovery_email', { email })
+        .then((response) => {
+          console.log(response.data);
+          navigate('/otp-verification'); // Navigate to OTP Verification page directly
+        })
+        .catch((error) => {
+          console.error('Error sending recovery email:', error);
+          alert('Failed to send recovery email. Please try again later.');
+        });
+    } else {
+      alert('Please enter your email to reset password');
+    }
   };
 
   return (
     <div className="container contain-2 mt-5">
-      <h2 className='heading-login'>Login</h2>
+      <h2 className="heading-login">Login</h2>
       <form onSubmit={handleLogin}>
-        {error && <div className="alert alert-danger" aria-live="polite">{error}</div>}
         <div className="mb-3">
-          <label htmlFor="email">{clickedFields.email ? "Email" : ""}</label>
+          <label htmlFor="email" className="form-label">Email address</label>
           <input
             type="email"
-            className="form-control control"
+            className="form-control"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-            aria-label="Email"
-            onClick={() => handleInputClick('email')} // Track clicks on the email field
-            placeholder={clickedFields.email ? "" : "Email"} // Clear placeholder if clicked
           />
         </div>
         <div className="mb-3">
-          <label htmlFor="password">{clickedFields.password ? "Password" : ""}</label>
+          <label htmlFor="password" className="form-label">Password</label>
           <input
             type="password"
-            className="form-control control"
+            className="form-control"
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
-            aria-label="Password"
-            onClick={() => handleInputClick('password')} // Track clicks on the password field
-            placeholder={clickedFields.password ? "" : "Password"} // Clear placeholder if clicked
           />
         </div>
-        <button type="submit" className="btn bn reflect bn-primary btn-primary" disabled={loading}>
+
+        {error && <p className="text-danger">{error}</p>}
+
+        <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
-      </form>
 
-      <div className="mt-3">
-        <p>
-          Not registered? <Link to="/register">Go to Register</Link>
-        </p>
-      </div>
+        <div className="mt-3">
+          <Link to="/register">Don't have an account? Register</Link>
+        </div>
+
+        <div className="mt-3">
+          <button type="button" onClick={handlePasswordReset} className="text-primary">
+            Forgot password?
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

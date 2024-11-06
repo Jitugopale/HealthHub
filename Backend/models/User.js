@@ -34,7 +34,22 @@ const UserSchema = new Schema({
     date:{
         type:Date,
         default:Date.Now
-    }
+    },
+    // Add these fields for password reset functionality
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
+    },
+    otp: { // OTP should be a string
+        type: String,
+        default: null,
+      },
+    otpExpiration: { // OTP expiration should be a date
+    type: Date,
+    default: null,
+    },
 });
 const User = mongoose.model('user',UserSchema);
 // User.createIndexes();

@@ -9,16 +9,13 @@ function UserProfile() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true); // State for loading
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [photo, setPhoto] = useState(() => {
-    // Retrieve photo from local storage when component mounts
-    return localStorage.getItem('userPhoto') || null;
-  });
+  const [photo, setPhoto] = useState(null);
 
+  // On component mount, fetch the user and photo
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token'); // Retrieve token from local storage
-        console.log(token);
         if (!token) {
           setError("User not authenticated. Please log in.");
           setLoading(false); // Stop loading
@@ -32,17 +29,15 @@ function UserProfile() {
           },
         });
 
-        // Log response to check what data is returned
-        console.log('Fetched user data:', response.data);
-
         // Check if user data exists and set it
         if (response.data) {
           setUser(response.data);
+          const storedPhoto = localStorage.getItem(`userPhoto_${response.data.userId}`); // Fetch photo from local storage based on userId
+          setPhoto(storedPhoto || response.data.photo); // Set the photo from localStorage or API response
         } else {
           setError('No user data found.');
         }
       } catch (error) {
-        // Improved error logging
         console.error('Error fetching user data:', error);
         setError('Error fetching user data. Please try again.');
       } finally {
@@ -60,10 +55,21 @@ function UserProfile() {
       reader.onloadend = () => {
         const uploadedPhoto = reader.result; // Set the uploaded photo as base64
         setPhoto(uploadedPhoto);
-        localStorage.setItem('userPhoto', uploadedPhoto); // Save the photo to local storage
+
+        // Save the uploaded photo in localStorage using the unique userId
+        const userId = user ? user.userId : null;
+        if (userId) {
+          localStorage.setItem(`userPhoto_${userId}`, uploadedPhoto); // Save the photo with a unique key
+        }
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // Clear the authentication token
+    // Do not remove photo from localStorage to persist it across sessions
+    window.location.reload(); // Reload page to reflect changes
   };
 
   const { fname, Lname, email, Address, PhoneNo, City } = user || {};
@@ -109,6 +115,7 @@ function UserProfile() {
               <p style={styles.userInfo}>Phone Number: {PhoneNo}</p>
               <p style={styles.userInfo}>City: {City}</p>
             </div>
+            <button onClick={handleLogout} style={styles.logoutButton}>Logout</button>
           </div>
         ) : (
           <p>No user data available.</p>
@@ -197,6 +204,15 @@ const styles = {
     fontSize: '24px',
     cursor: 'pointer',
     color: '#333', // Color of the close icon
+  },
+  logoutButton: {
+    marginTop: '20px',
+    padding: '10px 20px',
+    backgroundColor: '#ff4d4d',
+    border: 'none',
+    color: 'white',
+    cursor: 'pointer',
+    borderRadius: '5px',
   },
 };
 

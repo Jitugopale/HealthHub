@@ -22,16 +22,16 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/health-metrics', require('./routes/healthMetrics')); // Add health metrics route
 
 
-app.get('/api/healthMetrics', async (req, res) => {
-  try {
-    // Assume metrics are fetched from a database
-    const metrics = await getHealthMetrics(); // Replace with actual data fetching logic
-    res.json(metrics);
-  } catch (error) {
-    console.error('Error fetching health metrics:', error);
-    res.status(500).json({ message: 'Internal Server Error' });
-  }
-});
+// app.get('/api/healthMetrics', async (req, res) => {
+//   try {
+//     // Assume metrics are fetched from a database
+//     const metrics = await getHealthMetrics(); // Replace with actual data fetching logic
+//     res.json(metrics);
+//   } catch (error) {
+//     console.error('Error fetching health metrics:', error);
+//     res.status(500).json({ message: 'Internal Server Error' });
+//   }
+// });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
