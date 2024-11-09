@@ -144,7 +144,7 @@ router.post(
 // Route 3: Send OTP for password recovery
 // Example route for sending OTP to the user's email
 // Route for sending recovery email
-router.post('/send_recovery_email',fetchuser, async (req, res) => {
+router.post('/send_recovery_email', async (req, res) => {
   const { email } = req.body;
   
   // Generate a random OTP (for example, a 6-digit number)
@@ -191,7 +191,7 @@ router.post('/send_recovery_email',fetchuser, async (req, res) => {
 });
 
 // Route for verifying OTP and changing password
-router.post('/verify_otp',fetchuser, async (req, res) => {
+router.post('/verify_otp', async (req, res) => {
   const { email, otp, newPassword } = req.body;
 
   try {
